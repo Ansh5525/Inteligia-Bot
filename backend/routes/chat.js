@@ -2,7 +2,6 @@ const express = require('express');
 const { OpenAI } = require('openai');
 const router = express.Router();
 
-// Create OpenAI client
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });

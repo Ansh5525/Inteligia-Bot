@@ -9,14 +9,12 @@ const Chat = () => {
   const sendMessage = async () => {
   if (message.trim()) {
     const userMsg = { user: 'You', text: message };
-    // Add the user's message to chat
     setChat((prevChat) => [...prevChat, userMsg]);
     setMessage('');
 
     try {
       const response = await axios.post('http://localhost:8080/api/chat', { message });
       const aiMsg = { user: 'AI', text: response.data.reply };
-      // Add the AI's response to the chat
       setChat((prevChat) => [...prevChat, aiMsg]);
     } catch (error) {
       console.error('Error sending message:', error);
