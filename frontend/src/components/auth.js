@@ -15,7 +15,7 @@ const Auth = ({ onAuthSuccess }) => {
       const res = await axios.post(url, { email, password });
       if (res.data.token) {
         localStorage.setItem('token', res.data.token);
-        onAuthSuccess(); // Notify App that user is logged in
+        onAuthSuccess();
       } else {
         alert(res.data.message || 'Success');
       }

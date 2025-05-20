@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const handleLogout = () => {
   localStorage.removeItem('token');
-  window.location.reload(); // quick way to go back to Auth screen
+  window.location.reload();
 };
 
 const Chat = () => {

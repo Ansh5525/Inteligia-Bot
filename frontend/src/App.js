@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Chat from './components/chat';
-import Auth from './components/auth'; // assume Auth is saved here
+import Auth from './components/auth';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
