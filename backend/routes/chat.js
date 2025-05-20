@@ -2,18 +2,20 @@ const express = require('express');
 const { OpenAI } = require('openai');
 const router = express.Router();
 
+const authenticate = require('../middleware/authenticate');
+
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-router.post('/chat', async (req, res) => {
+router.post('/chat', authenticate, async (req, res) => {
   const { message } = req.body;
 
   try {
     const response = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: [
-        { role: 'system', content: 'You are a helpful AI assistant named AI WebChat' },
+        { role: 'system', content: 'You are a helpful AI Assistant named AI WebChat' },
         { role: 'user', content: message }
       ],
       max_tokens: 150,

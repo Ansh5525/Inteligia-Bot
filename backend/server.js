@@ -7,9 +7,6 @@ require('dotenv').config();
 const app = express();
 const HTTP_PORT = process.env.PORT || 8080;
 
-//const path = require('path');
-
-//app.use(express.static('public'));
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -21,6 +18,9 @@ mongoose
 
 const chatRoute = require('./routes/chat');
 app.use('/api', chatRoute);
+
+const authRoutes = require('./routes/auth');
+app.use('/api/auth', authRoutes);
 
 app.get('/', (req, res) => {
     res.send('Server is running!');
