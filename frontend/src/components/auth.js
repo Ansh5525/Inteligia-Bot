@@ -2,17 +2,28 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const Auth = ({ onAuthSuccess }) => {
-  const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const toggleMode = () => setIsLogin(!isLogin);
+  const [activeBox, setActiveBox] = useState(null); // 'login' or 'register'
+
+  // Separate states for login inputs
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+
+  // Separate states for register inputs
+  const [registerEmail, setRegisterEmail] = useState('');
+  const [registerPassword, setRegisterPassword] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = `http://localhost:8080/api/auth/${isLogin ? 'login' : 'register'}`;
+    const mode = activeBox || 'login';
+    const url = `http://localhost:8080/api/auth/${mode}`;
+
+    const data =
+      mode === 'login'
+        ? { email: loginEmail, password: loginPassword }
+        : { email: registerEmail, password: registerPassword };
 
     try {
-      const res = await axios.post(url, { email, password });
+      const res = await axios.post(url, data);
       if (res.data.token) {
         localStorage.setItem('token', res.data.token);
         onAuthSuccess();
@@ -25,110 +36,150 @@ const Auth = ({ onAuthSuccess }) => {
     }
   };
 
-  const styles = {
-    container: {
-      maxWidth: '400px',
-      margin: '60px auto',
-      padding: '30px 25px',
-      borderRadius: '15px',
-      boxShadow: '0 8px 20px rgba(0, 0, 0, 0.15)',
-      backgroundColor: '#ffffff',
-      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      textAlign: 'center',
-    },
-    heading: {
-      marginBottom: '25px',
-      fontSize: '2rem',
-      fontWeight: '700',
-      color: '#333',
-    },
-    input: {
-      width: '85%',
-      padding: '12px 15px',
-      marginBottom: '20px',
-      borderRadius: '8px',
-      border: '1.5px solid #ddd',
-      fontSize: '1rem',
-      transition: 'border-color 0.3s ease',
-      outline: 'none',
-    },
-    inputFocus: {
-      borderColor: '#0b93f6',
-      boxShadow: '0 0 5px #0b93f6',
-    },
-    submitBtn: {
-      width: '100%',
-      padding: '12px 0',
-      borderRadius: '30px',
-      border: 'none',
-      backgroundColor: '#0b93f6',
-      color: 'white',
-      fontSize: '1.1rem',
-      fontWeight: '700',
-      cursor: 'pointer',
-      transition: 'background-color 0.3s ease',
-    },
-    submitBtnHover: {
-      backgroundColor: '#0977d6',
-    },
-    toggleBtn: {
-      marginTop: '15px',
-      background: 'none',
-      border: 'none',
-      color: '#0b93f6',
-      fontSize: '1rem',
-      fontWeight: '600',
-      cursor: 'pointer',
-      textDecoration: 'underline',
-    },
+  const containerStyle = {
+    height: '100vh',
+    width: '100vw',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'relative',
   };
 
-  // Input focus handling for style
-  const [emailFocused, setEmailFocused] = useState(false);
-  const [passwordFocused, setPasswordFocused] = useState(false);
+  const contentWrapperStyle = {
+    display: 'flex',
+    zIndex: 1,
+    position: 'relative',
+    width: '90%',
+    maxWidth: '1000px',
+    justifyContent: 'center',
+    gap: '30px',
+    flexWrap: 'wrap',
+  };
+
+  const boxStyle = (mode) => {
+    const isActive = activeBox === mode;
+    const isOtherHovered = activeBox && activeBox !== mode;
+
+    return {
+      width: '40%',
+      height: '45vh',
+      padding: '25px',
+      margin: '10px',
+      borderRadius: '12px',
+      backgroundColor: '#fff',
+      boxShadow: isActive
+        ? '0 0 35px rgba(0, 0, 0, 0.7)'
+        : '0 0 15px rgba(0, 0, 0, 0.3)',
+      transform: isActive ? 'scale(1.05)' : 'scale(1)',
+      filter: isOtherHovered ? 'blur(2px)' : 'none',
+      opacity: isOtherHovered ? 0.5 : 1,
+      transition: 'all 0.3s ease',
+      cursor: 'pointer',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      color: '#333',
+    };
+  };
+
+  const headingStyle = {
+    marginBottom: '20px',
+    fontSize: '1.8rem',
+    fontWeight: 'bold',
+    textShadow: '1px 1px 2px rgba(0,0,0,0.4)',
+  };
+
+  const formStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '100%',
+  };
+
+  const inputStyle = {
+    width: '90%',
+    padding: '10px',
+    marginBottom: '15px',
+    borderRadius: '8px',
+    border: '1px solid #ccc',
+    backgroundColor: '#000',
+    color: '#fff',
+    fontSize: '1rem',
+  };
+
+  const buttonStyle = {
+    padding: '10px 25px',
+    borderRadius: '25px',
+    backgroundColor: '#e60023',
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: '1rem',
+    border: 'none',
+    cursor: 'pointer',
+    marginTop: '10px',
+    alignSelf: 'center',
+  };
 
   return (
-    <div style={styles.container}>
-      <h2 style={styles.heading}>{isLogin ? 'Login' : 'Register'}</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          style={{
-            ...styles.input,
-            ...(emailFocused ? styles.inputFocus : {}),
-          }}
-          onFocus={() => setEmailFocused(true)}
-          onBlur={() => setEmailFocused(false)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          style={{
-            ...styles.input,
-            ...(passwordFocused ? styles.inputFocus : {}),
-          }}
-          onFocus={() => setPasswordFocused(true)}
-          onBlur={() => setPasswordFocused(false)}
-        />
-        <button
-          type="submit"
-          style={styles.submitBtn}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#0977d6')}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#0b93f6')}
+    <div style={containerStyle}>
+      <div style={contentWrapperStyle}>
+        {/* Login Box */}
+        <div
+          style={boxStyle('login')}
+          onMouseEnter={() => setActiveBox('login')}
+          onMouseLeave={() => setActiveBox(null)}
         >
-          {isLogin ? 'Login' : 'Register'}
-        </button>
-      </form>
-      <button onClick={toggleMode} style={styles.toggleBtn}>
-        {isLogin ? 'Create Account' : 'Have an account? Login'}
-      </button>
+          <h2 style={headingStyle}>Login</h2>
+          <form onSubmit={handleSubmit} style={formStyle}>
+            <input
+              type="email"
+              placeholder="Email"
+              value={loginEmail}
+              onChange={(e) => setLoginEmail(e.target.value)}
+              style={inputStyle}
+              required
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={loginPassword}
+              onChange={(e) => setLoginPassword(e.target.value)}
+              style={inputStyle}
+              required
+            />
+            <button type="submit" style={buttonStyle}>Login</button>
+          </form>
+        </div>
+
+        {/* Register Box */}
+        <div
+          style={boxStyle('register')}
+          onMouseEnter={() => setActiveBox('register')}
+          onMouseLeave={() => setActiveBox(null)}
+        >
+          <h2 style={headingStyle}>Register</h2>
+          <form onSubmit={handleSubmit} style={formStyle}>
+            <input
+              type="email"
+              placeholder="Email"
+              value={registerEmail}
+              onChange={(e) => setRegisterEmail(e.target.value)}
+              style={inputStyle}
+              required
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={registerPassword}
+              onChange={(e) => setRegisterPassword(e.target.value)}
+              style={inputStyle}
+              required
+            />
+            <button type="submit" style={buttonStyle}>Register</button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };

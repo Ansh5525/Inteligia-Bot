@@ -33,7 +33,7 @@ router.post('/chat', authenticate, async (req, res) => {
     const response = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: [
-        { role: 'system', content: 'You are a helpful AI Assistant named WebChat' },
+        { role: 'system', content: 'You are a helpful AI Assistant named Inteligia Bot' },
         { role: 'user', content: message }
       ],
       max_tokens: 150,

@@ -71,11 +71,12 @@ const Chat = () => {
       padding: '20px',
       borderRadius: '12px',
       boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-      backgroundColor: '#fff',
+      backgroundColor: '#fff', // white container box
       fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
       display: 'flex',
       flexDirection: 'column',
       height: '80vh',
+      color: '#000', // dark text for white background
     },
     header: {
       fontWeight: '700',
@@ -103,18 +104,17 @@ const Chat = () => {
       display: 'flex',
       flexDirection: 'column',
       gap: '12px',
-      backgroundColor: '#f5f7fa',
+      backgroundColor: '#1E0000',
       borderRadius: '12px',
-      boxShadow: 'inset 0 0 5px rgba(0,0,0,0.05)',
+      color: '#fff', // white text inside chat area
     },
     messageUser: {
       alignSelf: 'flex-end',
-      backgroundColor: '#0b93f6',
+      backgroundColor: '#e60023', // red user message box
       color: 'white',
       padding: '12px 18px',
       borderRadius: '20px 20px 0 20px',
       maxWidth: '70%',
-      boxShadow: '0 2px 5px rgba(11, 147, 246, 0.4)',
       wordBreak: 'break-word',
       fontSize: '1rem',
     },
@@ -146,12 +146,12 @@ const Chat = () => {
       padding: '14px 24px',
       borderRadius: '25px',
       border: 'none',
-      backgroundColor: '#0b93f6',
+      backgroundColor: '#888', // gray send button
       color: 'white',
       fontWeight: '700',
       cursor: 'pointer',
       fontSize: '1rem',
-      transition: 'background-color 0.3s ease',
+      transition: 'background-color 0.3s ease, box-shadow 0.3s ease',
     },
   };
 
@@ -189,8 +189,8 @@ const Chat = () => {
           onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
           onFocus={(e) =>
             Object.assign(e.target.style, {
-              borderColor: '#0b93f6',
-              boxShadow: '0 0 5px #0b93f6',
+              borderColor: '#e60023',
+              boxShadow: '0 0 5px #e60023',
             })
           }
           onBlur={(e) =>
@@ -203,8 +203,14 @@ const Chat = () => {
         <button
           onClick={sendMessage}
           style={styles.button}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#0977d6')}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#0b93f6')}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = '#8b0000'; // dark red
+            e.currentTarget.style.boxShadow = '0 0 8px #8b0000';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = '#888'; // gray
+            e.currentTarget.style.boxShadow = 'none';
+          }}
         >
           Send
         </button>
