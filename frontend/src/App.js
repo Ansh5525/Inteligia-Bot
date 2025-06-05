@@ -1,22 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import Chat from './components/chat';
 import Auth from './components/auth';
+import LandingPage from './components/LandingPage';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
+  const [landingDone, setLandingDone] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     setIsAuthenticated(!!token);
   }, []);
 
-  const handleAuthSuccess = () => {
-    setIsAuthenticated(true);
+  const handleAuthSuccess = () => setIsAuthenticated(true);
+
+  const handleStart = () => {
+    setHasStarted(true);
+    setTimeout(() => {
+      setLandingDone(true);
+    }, 1400); // slightly reduced delay to avoid lingering
   };
 
   return (
     <>
-      {/* Background image div with blur */}
+      {/* Background image stays behind */}
       <div
         style={{
           position: 'fixed',
@@ -28,11 +36,12 @@ function App() {
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           filter: 'blur(8px)',
-          zIndex: -1, // behind everything
+          zIndex: -1,
         }}
       ></div>
 
-      {/* Main content container */}
+      {!landingDone && <LandingPage onStart={handleStart} />}
+
       <div
         style={{
           position: 'relative',
@@ -42,6 +51,7 @@ function App() {
           fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif',
           backgroundColor: 'transparent',
           color: 'white',
+          pointerEvents: landingDone ? 'auto' : 'none',
         }}
       >
         <header
@@ -54,12 +64,18 @@ function App() {
             marginBottom: '30px',
             boxShadow: '0 4px 10px rgba(0, 0, 0, 0.5)',
             color: 'white',
+            opacity: hasStarted ? 1 : 0,
+            transition: 'opacity 0.3s ease-in',
           }}
         >
-          Inteligia Bot
+          INTELIGIA BOT
         </header>
 
-        {isAuthenticated ? <Chat /> : <Auth onAuthSuccess={handleAuthSuccess} />}
+        {landingDone && (isAuthenticated ? (
+          <Chat />
+        ) : (
+          <Auth onAuthSuccess={handleAuthSuccess} />
+        ))}
       </div>
     </>
   );

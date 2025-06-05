@@ -75,7 +75,7 @@ const Chat = () => {
       fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
       display: 'flex',
       flexDirection: 'column',
-      height: '80vh',
+      height: '70vh',
       color: '#000', // dark text for white background
     },
     header: {
@@ -93,7 +93,7 @@ const Chat = () => {
       padding: '8px 14px',
       borderRadius: '6px',
       cursor: 'pointer',
-      marginBottom: '10px',
+      //marginBottom: '10px',
       fontWeight: '600',
       transition: 'background-color 0.3s ease',
     },
