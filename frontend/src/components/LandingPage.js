@@ -17,12 +17,10 @@ const LandingPage = ({ onStart }) => {
   const handleStartClick = () => {
     setIsAnimating(true);
 
-    // Wait for shrink animation (~1.5s), then fade out
     setTimeout(() => {
       setHasShrunk(true);
     }, 900);
 
-    // Wait for total transition (~1.8s), then call onStart
     setTimeout(() => {
       onStart();
     }, 1200);

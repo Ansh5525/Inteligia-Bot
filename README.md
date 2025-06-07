@@ -4,6 +4,10 @@ A sleek, modern AI-powered chat application with user authentication, chat histo
 
 ---
 
+## 🎥 Live Demo
+
+[![Watch the demo]](https://www.youtube.com/watch?v=3lEn34VKO9I)
+
 ## Features
 
 - **User Authentication:** Register and login with JWT-based authentication.
@@ -15,6 +19,9 @@ A sleek, modern AI-powered chat application with user authentication, chat histo
 ---
 
 ## Screenshots
+
+### Landing Page  
+![Landing Page](./screenshots/landing.png)
 
 ### Login & Register  
 ![Login and Register Screen](./screenshots/auth-screen.png)
@@ -59,7 +66,6 @@ A sleek, modern AI-powered chat application with user authentication, chat histo
        MONGO_URI=your_mongo_connection_string
        JWT_SECRET=your_jwt_secret_key
        OPENAI_API_KEY=your_openai_api_key
-       PORT=8080
 
 3. Setup frontend
 
@@ -98,23 +104,9 @@ A sleek, modern AI-powered chat application with user authentication, chat histo
 - `GET /api/chatlogs` — Get chat history for authenticated user  
 - `POST /api/chat` — Send message and receive AI response  
 
----
-
-## Contributing
-
-Contributions are welcome! Feel free to open issues or submit pull requests for improvements.
 
 ---
 
 ## Contact
 
 Created by **Ansh Partap Singh** – [apsingh6235@gmail.com](mailto:apsingh6235@gmail.com)  
-GitHub: [https://github.com/Ansh5525](https://github.com/Ansh5525)
-
----
-
-## Acknowledgments
-
-- [OpenAI](https://openai.com) for AI API  
-- React community for great tools and resources  
-- Inspired by many awesome chatbots on GitHub  

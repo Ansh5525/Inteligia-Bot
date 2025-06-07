@@ -71,19 +71,12 @@ const Chat = () => {
       padding: '20px',
       borderRadius: '12px',
       boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-      backgroundColor: '#fff', // white container box
+      backgroundColor: '#fff',
       fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
       display: 'flex',
       flexDirection: 'column',
       height: '70vh',
-      color: '#000', // dark text for white background
-    },
-    header: {
-      fontWeight: '700',
-      fontSize: '1.8rem',
-      marginBottom: '15px',
-      textAlign: 'center',
-      color: '#333',
+      color: '#000',
     },
     logoutBtn: {
       alignSelf: 'flex-end',
@@ -93,9 +86,9 @@ const Chat = () => {
       padding: '8px 14px',
       borderRadius: '6px',
       cursor: 'pointer',
-      //marginBottom: '10px',
       fontWeight: '600',
       transition: 'background-color 0.3s ease',
+      marginBottom: '10px',
     },
     chatBox: {
       flexGrow: 1,
@@ -106,11 +99,11 @@ const Chat = () => {
       gap: '12px',
       backgroundColor: '#1E0000',
       borderRadius: '12px',
-      color: '#fff', // white text inside chat area
+      color: '#fff',
     },
     messageUser: {
       alignSelf: 'flex-end',
-      backgroundColor: '#e60023', // red user message box
+      backgroundColor: '#e60023',
       color: 'white',
       padding: '12px 18px',
       borderRadius: '20px 20px 0 20px',
@@ -146,12 +139,11 @@ const Chat = () => {
       padding: '14px 24px',
       borderRadius: '25px',
       border: 'none',
-      backgroundColor: '#888', // gray send button
       color: 'white',
       fontWeight: '700',
       cursor: 'pointer',
       fontSize: '1rem',
-      transition: 'background-color 0.3s ease, box-shadow 0.3s ease',
+      transition: 'background-color 0.4s ease, box-shadow 0.3s ease',
     },
   };
 
@@ -165,7 +157,6 @@ const Chat = () => {
       >
         Logout
       </button>
-      <h2 style={styles.header}>AI Chat</h2>
 
       <div style={styles.chatBox}>
         {chat.map((msg, index) => (
@@ -202,13 +193,16 @@ const Chat = () => {
         />
         <button
           onClick={sendMessage}
-          style={styles.button}
+          style={{
+            ...styles.button,
+            backgroundColor: message.length > 0 ? '#b30010' : '#888',
+          }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#8b0000'; // dark red
-            e.currentTarget.style.boxShadow = '0 0 8px #8b0000';
+            if (message.length > 0) {
+              e.currentTarget.style.boxShadow = '0 0 8px #b30010';
+            }
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = '#888'; // gray
             e.currentTarget.style.boxShadow = 'none';
           }}
         >

@@ -2,13 +2,19 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const Auth = ({ onAuthSuccess }) => {
-  const [mode, setMode] = useState('login'); // 'login' or 'register'
+  const [mode, setMode] = useState('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [animateIn, setAnimateIn] = useState(false);
+  const [contentVisible, setContentVisible] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => setAnimateIn(true), 100);
+    const timeout1 = setTimeout(() => setAnimateIn(true), 100);
+    const timeout2 = setTimeout(() => setContentVisible(true), 400);
+    return () => {
+      clearTimeout(timeout1);
+      clearTimeout(timeout2);
+    };
   }, []);
 
   const handleSubmit = async (e) => {
@@ -29,16 +35,24 @@ const Auth = ({ onAuthSuccess }) => {
     }
   };
 
+  const handleToggleMode = () => {
+    setContentVisible(false);
+    setTimeout(() => {
+      setMode(mode === 'login' ? 'register' : 'login');
+      setTimeout(() => setContentVisible(true), 100);
+    }, 250);
+  };
+
   const containerStyle = {
     height: '80vh',
     width: '100vw',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    // Remove black background to show underlying background
     background: 'transparent',
     position: 'relative',
     zIndex: 10,
+    overflow: 'hidden',
   };
 
   const boxStyle = {
@@ -57,6 +71,17 @@ const Auth = ({ onAuthSuccess }) => {
     padding: '35px',
     boxSizing: 'border-box',
     color: '#333',
+    overflow: 'hidden',
+  };
+
+  const innerContentStyle = {
+    opacity: contentVisible ? 1 : 0,
+    transform: contentVisible ? 'scale(1)' : 'scale(0.85)',
+    transition: 'all 0.4s ease',
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
+    justifyContent: 'center',
   };
 
   const headingStyle = {
@@ -115,41 +140,43 @@ const Auth = ({ onAuthSuccess }) => {
   return (
     <div style={containerStyle}>
       <div style={boxStyle}>
-        <h2 style={headingStyle}>{headingText}</h2>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={inputStyle}
-            required
-            autoComplete="username"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={inputStyle}
-            required
-            autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
-          />
-          <button
-            type="submit"
-            style={buttonStyle}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.boxShadow = '0 0 30px rgba(179, 0, 16, 0.9)')
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.boxShadow = '0 0 20px rgba(179, 0, 16, 0.7)')
-            }
-          >
-            {mode === 'login' ? 'Login' : 'Register'}
-          </button>
-        </form>
-        <div style={toggleStyle} onClick={() => setMode(mode === 'login' ? 'register' : 'login')}>
-          {toggleText}
+        <div style={innerContentStyle}>
+          <h2 style={headingStyle}>{headingText}</h2>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              style={inputStyle}
+              required
+              autoComplete="username"
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={inputStyle}
+              required
+              autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
+            />
+            <button
+              type="submit"
+              style={buttonStyle}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.boxShadow = '0 0 30px rgba(179, 0, 16, 0.9)')
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.boxShadow = '0 0 20px rgba(179, 0, 16, 0.7)')
+              }
+            >
+              {mode === 'login' ? 'Login' : 'Register'}
+            </button>
+          </form>
+          <div style={toggleStyle} onClick={handleToggleMode}>
+            {toggleText}
+          </div>
         </div>
       </div>
     </div>
