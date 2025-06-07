@@ -1,7 +1,7 @@
 # Inteligia Bot — AI Chat Web Application   
-[Live Demo](https://www.youtube.com/watch?v=3lEn34VKO9I)
 
 A sleek, modern AI-powered chat application with user authentication, chat history, and real-time interaction using React, Express, MongoDB, and OpenAI's API.
+[Live Demo](https://www.youtube.com/watch?v=3lEn34VKO9I)
 
 ---
 
