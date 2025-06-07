@@ -2,9 +2,12 @@
 
 A sleek, modern AI-powered chat application with user authentication, chat history, and real-time interaction using React, Express, MongoDB, and OpenAI's API.
 
+---
+
+## 🎥 Live Demo
+
 [![Watch the demo](https://img.youtube.com/vi/3lEn34VKO9I/maxresdefault.jpg)](https://www.youtube.com/watch?v=3lEn34VKO9I)
 
----
 
 ## Features
 
